@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant UI as Browser A
+    participant A as Agent A
+    participant S as Server
+    participant B as Agent B
+    UI->>A: POST /api/messages
+    A-->>UI: 202 message_id
+    A->>S: CHAT_SEND over reliable UDP
+    S-->>A: CHAT_RECEIPT ACCEPTED_BY_SERVER
+    S->>B: CHAT_DELIVER
+    B->>B: Admit to application state
+    B-->>S: CHAT_RECEIPT DELIVERED_TO_RECIPIENT
+    S-->>A: Forward validated delivery receipt
+    UI->>A: GET /api/events
+    A-->>UI: MESSAGE_STATUS_CHANGED
+    Note over A,B: Transport ACKs confirm immediate-peer receipt only

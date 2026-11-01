@@ -1,0 +1,7 @@
+flowchart LR
+    A[Browser A] <-->|Local HTTP| CA[Java Agent A]
+    B[Browser B] <-->|Local HTTP| CB[Java Agent B]
+    CA <-->|TCP TLS control| S[Java Relay Server]
+    CB <-->|TCP TLS control| S
+    CA <-->|Reliable UDP| S
+    CB <-->|Reliable UDP| S

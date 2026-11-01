@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant A as Sender Agent
+    participant S as Server
+    participant B as Recipient Agent
+    A->>S: FILE_OFFER with recipient
+    S->>B: FILE_OFFER
+    B-->>S: FILE_ACCEPT
+    S-->>A: FILE_ACCEPT
+    loop Bounded chunks with pacing and retry
+        A->>S: FILE_CHUNK
+        S->>B: FILE_CHUNK
+        B->>B: Write unique bytes to temporary file
+    end
+    A->>S: FILE_FINISH
+    S->>B: FILE_FINISH
+    B->>B: Verify size and SHA-256; finalize file
+    B-->>S: FILE_COMPLETE
+    S-->>A: FILE_COMPLETE
+    A->>A: Mark COMPLETED
+    Note over A,B: Errors, rejection and cancellation follow state-machines.md

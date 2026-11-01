@@ -1,0 +1,22 @@
+# Java / Maven
+target/
+*.class
+# IDE / OS
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+.DS_Store
+# Local data and secrets
+runtime/*
+!runtime/.gitkeep
+config/local*.properties
+config/accounts*.json
+config/certs/*
+!config/certs/.gitkeep
+*.p12
+*.jks
+*.key
+.env
